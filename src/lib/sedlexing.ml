@@ -1,7 +1,18 @@
 (* The package sedlex is released under the terms of an MIT-like license. *)
 (* See the attached LICENSE file.                                         *)
 (* Copyright 2005, 2013 by Alain Frisch and LexiFi.                       *)
-
+module Uchar = struct
+  type t = int
+  external of_int : int -> t = "%identity" (* Check with Marshall, sanity check needed ? *)
+  external of_char : char -> t = "%identity"
+  let is_char u = u < 256
+  external format_int : string -> int -> string = "caml_format_int"
+  let err_not_latin1 u = "U+" ^ format_int "%04X" u ^ " is not a latin1 character"  
+  let to_char u =
+    if u > 255 then invalid_arg (err_not_latin1 u) else
+    Char.unsafe_chr u
+  external to_int : t -> int = "%identity"
+end
 exception InvalidCodepoint of int
 exception MalFormed
 
