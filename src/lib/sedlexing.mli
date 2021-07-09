@@ -148,7 +148,7 @@ val start: lexbuf -> unit
     [-1] and the backtrack position is set to the current position.
  *)
 
-val next: lexbuf -> Uchar.t option
+val next: lexbuf -> Uchar.t (*option*)
 (** [next lexbuf] extracts the next code point from the
     lexer buffer and increments to current position. If the input stream
     is exhausted, the function returns [None].

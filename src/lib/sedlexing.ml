@@ -162,12 +162,12 @@ let new_line lexbuf =
 
 let next lexbuf =
   if (not lexbuf.finished) && (lexbuf.pos = lexbuf.len) then refill lexbuf;
-  if lexbuf.finished && (lexbuf.pos = lexbuf.len) then None
+  if lexbuf.finished && (lexbuf.pos = lexbuf.len) then (*None*) -1
   else begin
     let ret = lexbuf.buf.(lexbuf.pos) in
     lexbuf.pos <- lexbuf.pos + 1;
     if ret = (Uchar.of_int 10) then new_line lexbuf;
-    Some ret
+    (*Some*) ret
   end
 
 let mark lexbuf i =

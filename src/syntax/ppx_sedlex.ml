@@ -160,7 +160,13 @@ let partition (name, p) =
   in
   let body = gen_tree (decision_table p) in
   glb_value name
-    (pexp_function ~loc [
+    [%expr fun uc -> 
+      if uc >= 0 then 
+        let c = uc in [%e body]
+      else 
+        let c = -1 in [%e body]
+    ]
+    (* (pexp_function ~loc [
       case 
         ~lhs:(ppat_construct ~loc (lident_loc ~loc "Some") (Some (pvar ~loc "uc")))
         ~guard:None
@@ -168,7 +174,8 @@ let partition (name, p) =
       case 
         ~lhs:(ppat_construct ~loc (lident_loc ~loc "None") None)
         ~guard:None
-        ~rhs:[%expr let c = (-1) in [%e body]]])
+        ~rhs:[%expr let c = (-1) in [%e body]]]
+        ) *)
 
 (* Code generation for the automata *)
 
